@@ -17,21 +17,33 @@ const gerarLinha = (tamanho) => {
     return linha;
 }
 
-const PrecosProd2 = produtos.map(produto2 => `R$ ${produto2.preço.toFixed(2)}`);
+const precosProd2 = produtos.map(produto2 => `R$ ${produto2.preço.toFixed(2)}`);
 
-const PrecosProd = produtos.map(produto => Number(produto.preço));
+const nomeProd = produtos.map(produto => produto.nome);
+
+const precosProd = produtos.map(produto => Number(produto.preço));
 
 const prodEstoque = produtos.map(stoque => Number(stoque.Estoque));
 
-const levaTudo = (PrecosProd, prodEstoque) => {
+const levaTudo = (precosProd, prodEstoque) => {
     let soma = 0;
-    for (let i = 0; i < PrecosProd.length; i++) {
-        soma += PrecosProd[i] * prodEstoque[i];
+    for (let i = 0; i < precosProd.length; i++) {
+        soma += precosProd[i] * prodEstoque[i];
     }
     return soma;
 };
 
-const PrecosFilt = produtos.filter(produtofil => {
+const levaCada = (precosProd, prodEstoque, nomeProd) => {
+    let tudoCada = [];
+    let compCada = [];
+    for (let i = 0; i < precosProd.length; i++) {
+        tudoCada[i] = precosProd[i] * prodEstoque[i];
+        compCada[i] = nomeProd[i] + ": R$" + tudoCada[i];
+    }
+    return compCada;
+};
+
+const precosFilt = produtos.filter(produtofil => {
 
     if (produtofil.preço > 10 ) {
         return true;
@@ -40,15 +52,17 @@ const PrecosFilt = produtos.filter(produtofil => {
         }
 });
 
-const ProdTot = produtos.reduce((total,produto) => total + produto.Estoque, 0);
+const prodTot = produtos.reduce((total,produto) => total + produto.Estoque, 0);
 
 export {
     produtos,
     gerarLinha,
-    PrecosProd2,
-    PrecosFilt,
+    precosProd2,
+    precosFilt,
     levaTudo,
     prodEstoque,
-    PrecosProd,
-    ProdTot
+    precosProd,
+    prodTot,
+    levaCada,
+    nomeProd
 }
